@@ -5,8 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/tae2089/EconoCLI/cmd"
-	"github.com/tae2089/EconoCLI/pkg/util"
+	"github.com/tae2089/econo-cli/cmd"
+	"github.com/tae2089/econo-cli/pkg/util"
 )
 
 func main() {

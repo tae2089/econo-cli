@@ -16,9 +16,9 @@ import (
 
 func CreateRootCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "econocli",
+		Use:   "econo-cli",
 		Short: "A brief description of your application",
-		Long:  "econocli is a tool for managing FinOps",
+		Long:  "econo-cli is a tool for managing FinOps",
 		Run: func(cmd *cobra.Command, args []string) {
 			cmd.Help()
 		},

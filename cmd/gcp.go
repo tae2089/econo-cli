@@ -7,9 +7,9 @@ import (
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
-	"github.com/tae2089/EconoCLI/pkg/gcp"
-	"github.com/tae2089/EconoCLI/pkg/tui"
-	"github.com/tae2089/EconoCLI/pkg/util"
+	"github.com/tae2089/econo-cli/pkg/gcp"
+	"github.com/tae2089/econo-cli/pkg/tui"
+	"github.com/tae2089/econo-cli/pkg/util"
 )
 
 var projectID string

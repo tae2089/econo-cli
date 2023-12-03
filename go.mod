@@ -1,4 +1,4 @@
-module github.com/tae2089/EconoCLI
+module github.com/tae2089/econo-cli
 
 go 1.20
 
