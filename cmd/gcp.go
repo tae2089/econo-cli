@@ -17,7 +17,7 @@ var zone string
 
 func InitGcpCmd() *cobra.Command {
 	gcpCmd := createGcpCmd()
-	util.RegisterSubCommands(gcpCmd, createStartInstanceGcpCmd, createStopInstanceGcpCmd, createGetInstancesGcpCmd, createGetInstancesGcpCmd, createGetVolumesGcpCmd, createDeleteVolumesGcpCmd)
+	util.RegisterSubCommands(gcpCmd, createStartInstanceGcpCmd, createStopInstanceGcpCmd, createGetInstancesGcpCmd, createGetVolumesGcpCmd, createDeleteVolumesGcpCmd)
 	return gcpCmd
 }
 
@@ -38,15 +38,11 @@ func createGcpCmd() *cobra.Command {
 func createStopInstanceGcpCmd() *cobra.Command {
 	var computeEngineIDs []string
 	var computeEngineStopCmd = &cobra.Command{
-		Use:   "stop-instance",
+		Use:   "stop-instances",
 		Short: "Stop Compute Engine",
 		Run: func(cmd *cobra.Command, args []string) {
-			result := gcp.StopInstances(profile, region, computeEngineIDs)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			result := gcp.StopInstances(projectID, zone, computeEngineIDs)
+			fmt.Println(result)
 		},
 	}
 	computeEngineStopCmd.Flags().StringSliceVarP(&computeEngineIDs, "instance-ids", "i", []string{}, "insert ec2 instance ids to stop")
@@ -56,15 +52,11 @@ func createStopInstanceGcpCmd() *cobra.Command {
 func createStartInstanceGcpCmd() *cobra.Command {
 	var computeEngineNames []string
 	var computeEngineStartCmd = &cobra.Command{
-		Use:   "start-instance",
+		Use:   "start-instances",
 		Short: "Start Compute Engine",
 		Run: func(cmd *cobra.Command, args []string) {
-			result := gcp.StartInstance(profile, region, computeEngineNames)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			result := gcp.StartInstance(projectID, zone, computeEngineNames)
+			fmt.Println(result)
 		},
 	}
 	computeEngineStartCmd.Flags().StringSliceVarP(&computeEngineNames, "instancenames", "i", []string{}, "insert ec2 instance ids to start")
@@ -95,7 +87,7 @@ func createGetInstancesGcpCmd() *cobra.Command {
 
 func createGetVolumesGcpCmd() *cobra.Command {
 	var getVolumesCmd = &cobra.Command{
-		Use:   "get-volumes",
+		Use:   "get-disks",
 		Short: "Get Compute Engine Disk of List",
 		Run: func(cmd *cobra.Command, args []string) {
 			rows := gcp.GetVolumes(projectID, zone)
@@ -122,11 +114,7 @@ func createDeleteVolumesGcpCmd() *cobra.Command {
 		Short: "Delete Compute Engine Disk of List",
 		Run: func(cmd *cobra.Command, args []string) {
 			result := gcp.DeleteDisks(projectID, zone, volumeIDs)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			fmt.Println(result)
 		},
 	}
 	deleteVolumesCmd.Flags().StringSliceVarP(&volumeIDs, "disk-ids", "v", []string{}, "insert compute engine disk ids to delete")
