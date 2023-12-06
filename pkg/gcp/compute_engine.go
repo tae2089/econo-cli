@@ -27,6 +27,7 @@ func GetInstanceList(projectID, zone string) []table.Row {
 			break
 		}
 		if err != nil {
+			fmt.Println(err.Error())
 			return nil
 		}
 		rows = append(rows, table.Row{strconv.Itoa(idx), fmt.Sprintf("%d", *instance.Id), instance.GetName()})
@@ -40,17 +41,18 @@ func StopInstances(projectID, zone string, instanceNames []string) string {
 	defer instancesClient.Close()
 	success, failed := 0, 0
 	for _, instanceName := range instanceNames {
-		_, err := instancesClient.Stop(ctx, &computepb.StopInstanceRequest{
+		req := &computepb.StopInstanceRequest{
 			Project:  projectID,
 			Zone:     zone,
 			Instance: instanceName,
-		})
-		if err != nil {
-			failed++
-			fmt.Println(err.Error())
-		} else {
-			success++
 		}
+		_, err := instancesClient.Stop(ctx, req)
+		if err != nil {
+			fmt.Println("unable to stop instance: ", err.Error())
+			failed++
+			continue
+		}
+		success++
 	}
 	return fmt.Sprintf("Successfully stopped %d instances and failed to stop %d compute engine", success, failed)
 }
@@ -60,17 +62,18 @@ func StartInstance(projectID, zone string, instanceNames []string) string {
 	defer instancesClient.Close()
 	success, failed := 0, 0
 	for _, instanceName := range instanceNames {
-		_, err := instancesClient.Start(ctx, &computepb.StartInstanceRequest{
+		req := &computepb.StartInstanceRequest{
 			Project:  projectID,
 			Zone:     zone,
 			Instance: instanceName,
-		})
-		if err != nil {
-			failed++
-			fmt.Println(err.Error())
-		} else {
-			success++
 		}
+		_, err := instancesClient.Start(ctx, req)
+		if err != nil {
+			fmt.Println("unable to stop instance: ", err.Error())
+			failed++
+			continue
+		}
+		success++
 	}
 	return fmt.Sprintf("Successfully started %d instances and failed to start %d compute engine", success, failed)
 }
