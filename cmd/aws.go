@@ -44,15 +44,12 @@ func createAwsCmd() *cobra.Command {
 func createStopInstanceAwsCmd() *cobra.Command {
 	var instancdIds []string
 	var instanceStopCmd = &cobra.Command{
-		Use:   "stop-instance",
+		Use:   "stop-instances",
 		Short: "Stop EC2 Instance",
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			result := aws.StopInstances(profile, region, instancdIds)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			fmt.Println(result)
+			return nil
 		},
 	}
 	instanceStopCmd.Flags().StringSliceVarP(&instancdIds, "instance-ids", "i", []string{}, "insert ec2 instance ids to stop")
@@ -62,15 +59,11 @@ func createStopInstanceAwsCmd() *cobra.Command {
 func createStartInstanceAwsCmd() *cobra.Command {
 	var instancdIds []string
 	var instanceStartCmd = &cobra.Command{
-		Use:   "start-instance",
+		Use:   "start-instances",
 		Short: "Start EC2 Instance",
 		Run: func(cmd *cobra.Command, args []string) {
 			result := aws.RestartInstances(profile, region, instancdIds)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			fmt.Println(result)
 		},
 	}
 	instanceStartCmd.Flags().StringSliceVarP(&instancdIds, "instance-ids", "i", []string{}, "insert ec2 instance ids to start")
@@ -130,11 +123,7 @@ func createDeleteVolumesAwsCmd() *cobra.Command {
 		Short: "Delete EC2 Volume of List",
 		Run: func(cmd *cobra.Command, args []string) {
 			result := aws.DeleteEc2Volumes(profile, region, volumeIDs)
-			p := tea.NewProgram(tui.InitTextOutputModel(result))
-			if _, err := p.Run(); err != nil {
-				fmt.Println(err.Error())
-				os.Exit(1)
-			}
+			fmt.Println(result)
 		},
 	}
 	deleteVolumesCmd.Flags().StringSliceVarP(&volumeIDs, "volume-ids", "i", []string{}, "insert ec2 volume ids to delete")
