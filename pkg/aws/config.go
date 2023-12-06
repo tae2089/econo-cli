@@ -2,6 +2,8 @@ package aws
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -24,7 +26,8 @@ func getS3Client(profile, region string) *s3.Client {
 func getAwsConfig(profile, region string) aws.Config {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithSharedConfigProfile(profile), config.WithRegion(region))
 	if err != nil {
-		panic("failed to load config, " + err.Error())
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 	return cfg
 }
