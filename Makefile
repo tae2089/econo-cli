@@ -1,6 +1,6 @@
 BIN_DIR=./bin
-BIN=azblogfilter
-BIN_WINDOWS=azblogfilter.exe
+BIN=econo-cli
+BIN_WINDOWS=econo-cli.exe
 BIN_DEBUG=$(BIN).debug
 GCFLAGS_DEBUG="all=-N -l"
 INSTALL_LOCATION=~/bin
@@ -23,7 +23,7 @@ build: bin-dir
 build-linux: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
 		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
-		GOOS=$(LINUX_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN); \
+		GOOS=$(LINUX_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		tar -czvf $(BIN_DIR)/$(BIN).$(LINUX_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
 		rm $(BIN_DIR)/$(BIN); \
@@ -34,7 +34,7 @@ build-linux: bin-dir
 build-darwin: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
 		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
-		GOOS=$(MAC_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN); \
+		GOOS=$(MAC_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		tar -czvf $(BIN_DIR)/$(BIN).$(MAC_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
 		rm $(BIN_DIR)/$(BIN); \
@@ -45,7 +45,7 @@ build-darwin: bin-dir
 build-windows: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
 		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
-		GOOS=$(WINDOWS_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN_WINDOWS); \
+		GOOS=$(WINDOWS_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN_WINDOWS) run/main.go; \
 		zip -9 -y $(BIN_DIR)/$(BIN).$(WINDOWS_OS)-$(ARCH).zip $(BIN_DIR)/$(BIN_WINDOWS); \
 		git checkout -- ./cmd/version.go; \
 		rm $(BIN_DIR)/$(BIN_WINDOWS); \
@@ -55,7 +55,7 @@ build-windows: bin-dir
 
 build-debug: bin-dir
 	sed -i "s|LOCAL|$(git tag -l --sort=-creatordate | head -n 1 )|" ./cmd/version.go
-	go build -o $(BIN_DIR)/$(BIN_DEBUG) -gcflags=$(GCFLAGS_DEBUG)
+	go build -o $(BIN_DIR)/$(BIN_DEBUG) -gcflags=$(GCFLAGS_DEBUG) run/main.go
 
 bin-dir:
 	mkdir -p $(BIN_DIR)
