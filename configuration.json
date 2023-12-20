@@ -2,20 +2,40 @@
   "categories": [
     {
       "title": "## 🚀 Features",
-      "labels": ["feature"]
+      "labels": ["🚀", "🌟"]
     },
     {
       "title": "## 🐛 Fixes",
-      "labels": ["fix"]
+      "labels": ["🐛"]
     },
     {
       "title": "## 🧪 Tests",
-      "labels": ["test"]
+      "labels": ["🧪"]
+    },
+    {
+      "title": "## 💬 Other",
+      "labels": ["💬", "📖", "🚨"]
+    },
+    {
+      "title": "## 📦 Dependencies",
+      "labels": ["📦"]
     }
   ],
   "sort": "ASC",
   "template": "${{CHANGELOG}}",
   "pr_template": "- ${{TITLE}}\n   - PR: #${{NUMBER}}",
+  "label_extractor": [
+    {
+      "pattern": "(.) (.+)",
+      "target": "$1"
+    }
+  ],
+  "transformers": [
+    {
+      "pattern": "(.) (.+)",
+      "target": "- $2"
+    }
+  ],
   "empty_template": "- no changes",
   "max_pull_requests": 1000,
   "max_back_track_time_days": 1000
