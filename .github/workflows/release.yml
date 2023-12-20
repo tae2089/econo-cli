@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: "Set latest tag"
         id: set-latest-tag
-        run: echo "TAG_NAE=$(git tag | sort --version-sort | tail -n1)" >> $GITHUB_ENV
+        run: echo "TAG_NAME=$(git tag | sort --version-sort | tail -n1)" >> $GITHUB_ENV
       - name: build
         run: make
       - name: version
