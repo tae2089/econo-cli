@@ -13,7 +13,7 @@ ARCH=amd64
 
 build: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
-		sed -i "s/v.*/$(git rev-parse --short HEAD)/g" ./cmd/version.go; \
+		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
 		go build -o $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
 	else \
@@ -22,7 +22,7 @@ build: bin-dir
 
 build-linux: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
-		sed -i "s/v.*/$(git rev-parse --short HEAD)/g" ./cmd/version.go; \
+		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
 		GOOS=$(LINUX_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN); \
 		tar -czvf $(BIN_DIR)/$(BIN).$(LINUX_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
@@ -33,7 +33,7 @@ build-linux: bin-dir
 
 build-darwin: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
-		sed -i "s/v.*/$(git rev-parse --short HEAD)/g" ./cmd/version.go; \
+		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
 		GOOS=$(MAC_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN); \
 		tar -czvf $(BIN_DIR)/$(BIN).$(MAC_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
@@ -44,7 +44,7 @@ build-darwin: bin-dir
 
 build-windows: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
-		sed -i "s/v.*/$(git rev-parse --short HEAD)/g" ./cmd/version.go; \
+		sed -i "s/v.*/$(git tag -l --sort=-creatordate | head -n 1 )/g" ./cmd/version.go; \
 		GOOS=$(WINDOWS_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN_WINDOWS); \
 		zip -9 -y $(BIN_DIR)/$(BIN).$(WINDOWS_OS)-$(ARCH).zip $(BIN_DIR)/$(BIN_WINDOWS); \
 		git checkout -- ./cmd/version.go; \
@@ -54,7 +54,7 @@ build-windows: bin-dir
 	fi
 
 build-debug: bin-dir
-	sed -i "s|LOCAL|$(git rev-parse --short HEAD)|" ./cmd/version.go
+	sed -i "s|LOCAL|$(git tag -l --sort=-creatordate | head -n 1 )|" ./cmd/version.go
 	go build -o $(BIN_DIR)/$(BIN_DEBUG) -gcflags=$(GCFLAGS_DEBUG)
 
 bin-dir:
