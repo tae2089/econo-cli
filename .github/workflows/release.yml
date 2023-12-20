@@ -35,7 +35,7 @@ jobs:
         uses: requarks/changelog-action@v1
         with:
           token: ${{ secrets.TOKEN }}
-          tag: ${{ github.ref }}
+          tag: ${{ github.ref_name }}
       - name: release
         uses: actions/create-release@v1
         id: create_release
@@ -43,7 +43,7 @@ jobs:
           draft: false
           prerelease: false
           release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
           body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
