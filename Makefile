@@ -14,7 +14,7 @@ ARCH=amd64
 build: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
 		sed -i "s/v.*/${{ github.event.release.tag_name }}/g" ./cmd/version.go; \
-		go build -o $(BIN_DIR)/$(BIN); \
+		go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		git checkout -- ./cmd/version.go; \
 	else \
 		echo Working directory not clean, commit changes; \
