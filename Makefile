@@ -16,7 +16,7 @@ build: bin-dir
 		sed -i "s/LOCAL/$(TAG_NAME)/g" ./cmd/version.go; \
 		go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		git checkout -- ./cmd/version.go; \
-		rm $(BIN_DIR)/$(BIN); \
+		rm -rf $(BIN_DIR)/$(BIN); \
 	else \
 		echo Working directory not clean, commit changes; \
 	fi
@@ -27,7 +27,7 @@ build-linux: bin-dir
 		GOOS=$(LINUX_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		tar -czvf $(BIN_DIR)/$(BIN).$(LINUX_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
-		rm $(BIN_DIR)/$(BIN); \
+		rm -rf $(BIN_DIR)/$(BIN); \
 	else \
 		echo Working directory not clean, commit changes; \
 	fi
@@ -38,7 +38,7 @@ build-darwin: bin-dir
 		GOOS=$(MAC_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		tar -czvf $(BIN_DIR)/$(BIN).$(MAC_OS)-$(ARCH).tar.gz $(BIN_DIR)/$(BIN); \
 		git checkout -- ./cmd/version.go; \
-		rm $(BIN_DIR)/$(BIN); \
+		rm -rf $(BIN_DIR)/$(BIN); \
 	else \
 		echo Working directory not clean, commit changes; \
 	fi
@@ -49,7 +49,7 @@ build-windows: bin-dir
 		GOOS=$(WINDOWS_OS) GOARCH=$(ARCH) go build -o $(BIN_DIR)/$(BIN_WINDOWS) run/main.go; \
 		zip -9 -y $(BIN_DIR)/$(BIN).$(WINDOWS_OS)-$(ARCH).zip $(BIN_DIR)/$(BIN_WINDOWS); \
 		git checkout -- ./cmd/version.go; \
-		rm $(BIN_DIR)/$(BIN_WINDOWS); \
+		rm -rf $(BIN_DIR)/$(BIN_WINDOWS); \
 	else \
 		echo Working directory not clean, commit changes; \
 	fi
