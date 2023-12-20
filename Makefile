@@ -16,6 +16,7 @@ build: bin-dir
 		sed -i "s/LOCAL/$(TAG_NAME)/g" ./cmd/version.go; \
 		go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		git checkout -- ./cmd/version.go; \
+		rm $(BIN_DIR)/$(BIN); \
 	else \
 		echo Working directory not clean, commit changes; \
 	fi
