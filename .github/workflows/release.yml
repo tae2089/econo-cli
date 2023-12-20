@@ -24,7 +24,7 @@ jobs:
       - name: build
         run: make
       - name: version
-        run: echo "::set-output name=version::$(./bin/econo-cli --version)"
+        run: echo "::set-output name=version::$(./bin/econo-cli version)"
         id: version
       # - name: build artifacts
       #   run: make build-linux && make build-windows && make build-darwin
