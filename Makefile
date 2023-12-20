@@ -70,5 +70,5 @@ install: build
 	cp $(BIN_DIR)/$(BIN) $(INSTALL_LOCATION)/$(BIN)
 
 release: build
-	VERSION=$$($(BIN_DIR)/$(BIN) --version); \
+	VERSION=$$($(BIN_DIR)/$(BIN) version); \
 	git tag $$VERSION;
