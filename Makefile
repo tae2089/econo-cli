@@ -13,6 +13,7 @@ ARCH=amd64
 
 build: bin-dir
 	if [ -z "$(shell git status --porcelain)" ]; then \
+		echo $(TAG_NAME); \
 		sed -i "s/v.*/$(TAG_NAME)/g" ./cmd/version.go; \
 		go build -o $(BIN_DIR)/$(BIN) run/main.go; \
 		git checkout -- ./cmd/version.go; \
