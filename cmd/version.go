@@ -16,7 +16,7 @@ func createVersionCmd() *cobra.Command {
 		Short: "Print the version number of econo-cli",
 		Long:  "All software has versions. This is econo-cli's",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Print("econo-cli FinOps of Cli version - vlocal")
+			fmt.Println("econo-cli FinOps of Cli version - LOCAL ")
 		},
 	}
 }
