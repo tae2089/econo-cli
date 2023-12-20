@@ -15,12 +15,16 @@ jobs:
         with:
           fetch-depth: 0
       - name: build
-        run: make build
+        run: make
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
       - name: version
         run: echo "::set-output name=version::$(./bin/econo-cli --version)"
         id: version
       - name: build artifacts
         run: make build-linux && make build-windows && make build-darwin
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name }}
       - name: release
         uses: actions/create-release@v1
         id: create_release
